@@ -84,7 +84,7 @@ Main:: ~Main()
 bool nextMustBeNumber = false; //If next number must be number or not
 void Main::OnButtonNumClicked(wxCommandEvent& evnt)
 {
-	int num = evnt.GetId() - 10000;
+	int num = evnt.GetId();
 	if (num >= 48 && num <= 57) //Numbers 0 to 9
 	{
 		operations->AppendText((char)num);
