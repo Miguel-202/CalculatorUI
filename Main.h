@@ -35,5 +35,11 @@ public:
 	wxButton* eigth = nullptr;
 	wxButton* nine = nullptr;
 	wxButton* zero = nullptr;
+
+
+	void OnButtonNumClicked(wxCommandEvent& evnt);
+
+	wxDECLARE_EVENT_TABLE();
+
 };
 
