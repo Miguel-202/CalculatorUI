@@ -1,4 +1,5 @@
 #include "Main.h"
+#include "ButtonFactory.h"
 wxBEGIN_EVENT_TABLE(Main, wxFrame)
 EVT_BUTTON(wxID_ANY, OnButtonNumClicked)
 wxEND_EVENT_TABLE();
@@ -13,10 +14,12 @@ Main::Main() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(600,100), wxSize
 	double currentX = 0;
 	double currentY = 0;
 
+	ButtonFactory factory;
 
 	operations = new wxTextCtrl(this, 10040, "", wxPoint(currentX, currentY), wxSize(xSize * 4, ySize ), wxTE_READONLY); currentY += ySize ;
 	//wxListBox* result = new wxListBox(this, 10041, wxPoint(currentX, currentY), wxSize(xSize * 4, ySize / 2)); currentY += ySize / 2;
 
+<<<<<<< Updated upstream
 	power = new wxButton(this, 10020, "ON / OFF", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
 	power->SetBackgroundColour(*wxRED);
 	mod = new wxButton(this, 10037, "MOD", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
@@ -62,6 +65,48 @@ Main::Main() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(600,100), wxSize
 	dot = new wxButton(this, 10046, ".", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
 	//dot->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
 	equals = new wxButton(this, 10061, "=", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
+=======
+	power = factory.CreatePowerButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
+	mod = factory.CreateModButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
+	negative =  factory.CreateNegativeButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
+	clear = factory.CreateClearButton(this, currentX, currentY, xSize, ySize); currentX = 0; currentY += ySize;
+
+	seven = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 7); currentX += xSize;
+	seven->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	eigth = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 8); currentX += xSize;
+	eigth->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	nine = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 9); currentX += xSize;
+	nine->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	divide = new wxButton(this, 47, "/", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX = 0;
+	divide->SetBackgroundColour(*wxLIGHT_GREY);
+	currentY += ySize;
+
+	four = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 4); currentX += xSize;
+	four->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	five = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 3); currentX += xSize;
+	five->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	six = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 2); currentX += xSize;
+	six->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	multiply = new wxButton(this, 42, "*", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX = 0;
+	multiply->SetBackgroundColour(*wxLIGHT_GREY);
+	currentY += ySize;
+
+	one = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 1); currentX += xSize;
+	one->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	two = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 2); currentX += xSize;
+	two->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	three = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 3); currentX += xSize;
+	three->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	minus = new wxButton(this, 45, "-", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX = 0;
+	minus->SetBackgroundColour(*wxLIGHT_GREY);
+	currentY += ySize;
+
+	zero = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 0); currentX += xSize;
+	zero->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	dot = new wxButton(this, 46, ".", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
+	dot->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
+	equals = new wxButton(this, 61, "=", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
+>>>>>>> Stashed changes
 	equals->SetBackgroundColour(*wxRED);
 	plus = new wxButton(this, 10043, "+", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX = 0;
 	plus->SetBackgroundColour(*wxLIGHT_GREY);
@@ -84,6 +129,7 @@ Main:: ~Main()
 bool nextMustBeNumber = false; //If next number must be number or not
 void Main::OnButtonNumClicked(wxCommandEvent& evnt)
 {
+<<<<<<< Updated upstream
 	int num = evnt.GetId() - 10000;
 	if (num >= 48 && num <= 57) //Numbers 0 to 9
 	{
@@ -91,6 +137,17 @@ void Main::OnButtonNumClicked(wxCommandEvent& evnt)
 		nextMustBeNumber = false;
 	}
 	else if (num >= 42 && num <= 47 && nextMustBeNumber == false) // Are the + / * - . symbols
+=======
+	nextMustBeNumber = false;
+	wxButton* pButton = dynamic_cast<wxButton*>(evnt.GetEventObject());
+	operations->AppendText(pButton->GetLabel());
+}
+
+void Main::OnButtonClicked(wxCommandEvent& evnt)
+{
+	int num = evnt.GetId();
+	if (num >= 42 && num <= 47 && nextMustBeNumber == false) // Are the + / * - . symbols
+>>>>>>> Stashed changes
 	{
 		nextMustBeNumber = true;
 		int val = wxAtoi(operations->GetValue());
@@ -99,6 +156,7 @@ void Main::OnButtonNumClicked(wxCommandEvent& evnt)
 	else if (num == 61) //Equals
 	{
 		wxString operation = operations->GetValue();
+
 	}
 	else if (num == 20) //ON / OFF button
 	{
@@ -110,5 +168,6 @@ void Main::OnButtonNumClicked(wxCommandEvent& evnt)
 	}
 	evnt.Skip();
 }
+
 
 
