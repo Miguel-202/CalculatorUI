@@ -39,6 +39,7 @@ public:
 
 
 	void OnButtonNumClicked(wxCommandEvent& evnt);
+	void OnButtonClicked(wxCommandEvent& evnt);
 
 	wxDECLARE_EVENT_TABLE();
 
