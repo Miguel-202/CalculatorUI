@@ -8,19 +8,30 @@ double width = 375;
 double height = 679;
 Main::Main() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(600,100), wxSize(width,height))
 {
+	CreateButtons();
+}
+
+Main:: ~Main()
+{
+
+}
+
+
+void Main::CreateButtons()
+{
 	//GRID 4x6
-	double xSize = (width-20) / 4;
-	double ySize = (height-35) / 7;
+	double xSize = (width - 20) / 4;
+	double ySize = (height - 35) / 7;
 	double currentX = 0;
 	double currentY = 0;
 
 	ButtonFactory factory;
 
-	operations = new wxTextCtrl(this, 10040, "", wxPoint(currentX, currentY), wxSize(xSize * 4, ySize ), wxTE_READONLY); currentY += ySize ;
+	operations = new wxTextCtrl(this, 10040, "", wxPoint(currentX, currentY), wxSize(xSize * 4, ySize), wxTE_READONLY); currentY += ySize;
 	//wxListBox* result = new wxListBox(this, 10041, wxPoint(currentX, currentY), wxSize(xSize * 4, ySize / 2)); currentY += ySize / 2;
 	power = factory.CreatePowerButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
 	mod = factory.CreateModButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
-	negative =  factory.CreateNegativeButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
+	negative = factory.CreateNegativeButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
 	clear = factory.CreateClearButton(this, currentX, currentY, xSize, ySize); currentX = 0; currentY += ySize;
 
 	seven = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 7); currentX += xSize;
@@ -60,12 +71,6 @@ Main::Main() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(600,100), wxSize
 	hex = new wxButton(this, 32, "HEX", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
 	hex->SetBackgroundColour(*wxLIGHT_GREY);
 }
-
-Main:: ~Main()
-{
-
-}
-
 
 bool nextMustBeNumber = false; //If next number must be number or not
 

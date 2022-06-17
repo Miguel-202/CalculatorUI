@@ -8,6 +8,8 @@ public:
 	~Main();
 
 public:
+	void CreateButtons();
+
 	wxTextCtrl* operations = nullptr;
 	wxListBox* result = nullptr;
 	
