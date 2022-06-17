@@ -10,6 +10,17 @@ public:
 
 	wxButton* CreateNumberButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize, int num);
 
+	wxButton* CreatePlusButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize);
+	wxButton* CreateMinusButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize);
+	wxButton* CreateDivideButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize);
+	wxButton* CreateMultiplyButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize);
+	wxButton* CreateEqualsButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize);
+
+	wxButton* CreateDotButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize);
+	wxButton* CreateDecimalButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize);
+	wxButton* CreateBinaryButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize);
+	wxButton* CreateHexButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize);
+
 };
 
 

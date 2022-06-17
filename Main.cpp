@@ -28,7 +28,7 @@ void Main::CreateButtons()
 	ButtonFactory factory;
 
 	operations = new wxTextCtrl(this, 10040, "", wxPoint(currentX, currentY), wxSize(xSize * 4, ySize), wxTE_READONLY); currentY += ySize;
-	//wxListBox* result = new wxListBox(this, 10041, wxPoint(currentX, currentY), wxSize(xSize * 4, ySize / 2)); currentY += ySize / 2;
+
 	power = factory.CreatePowerButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
 	mod = factory.CreateModButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
 	negative = factory.CreateNegativeButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
@@ -37,42 +37,31 @@ void Main::CreateButtons()
 	seven = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 7); currentX += xSize;
 	eigth = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 8); currentX += xSize;
 	nine = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 9); currentX += xSize;
-	divide = new wxButton(this, 47, "/", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX = 0;
-	divide->SetBackgroundColour(*wxLIGHT_GREY);
-	currentY += ySize;
+	divide = factory.CreateDivideButton(this, currentX, currentY, xSize, ySize); currentX = 0; currentY += ySize;
 
 	four = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 4); currentX += xSize;
 	five = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 3); currentX += xSize;
 	six = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 2); currentX += xSize;
-	multiply = new wxButton(this, 42, "*", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX = 0;
-	multiply->SetBackgroundColour(*wxLIGHT_GREY);
-	currentY += ySize;
+	multiply = factory.CreateMultiplyButton(this, currentX, currentY, xSize, ySize); currentX = 0; currentY += ySize;
 
 	one = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 1); currentX += xSize;
 	two = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 2); currentX += xSize;
 	three = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 3); currentX += xSize;
-	//three->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
-	minus = new wxButton(this, 45, "-", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX = 0;
-	minus->SetBackgroundColour(*wxLIGHT_GREY);
-	currentY += ySize;
+	minus = factory.CreateMinusButton(this, currentX, currentY, xSize, ySize); currentX = 0; currentY += ySize;
+
+	//EXAMPLE FOR BIND three->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Main::OnButtonNumClicked, this);
 
 	zero = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 0); currentX += xSize;
-	dot = new wxButton(this, 46, ".", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
-	equals = new wxButton(this, 61, "=", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
-	equals->SetBackgroundColour(*wxRED);
-	plus = new wxButton(this, 43, "+", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX = 0;
-	plus->SetBackgroundColour(*wxLIGHT_GREY);
-	currentY += ySize;
+	dot = factory.CreateDotButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
+	equals = factory.CreateEqualsButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
+	plus = factory.CreatePlusButton(this, currentX, currentY, xSize, ySize); currentX = 0; currentY += ySize;
 
-	decimal = new wxButton(this, 30, "DECIMAL", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
-	decimal->SetBackgroundColour(*wxLIGHT_GREY);
-	binary = new wxButton(this, 31, "BIN", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
-	binary->SetBackgroundColour(*wxLIGHT_GREY);
-	hex = new wxButton(this, 32, "HEX", wxPoint(currentX, currentY), wxSize(xSize, ySize)); currentX += xSize;
-	hex->SetBackgroundColour(*wxLIGHT_GREY);
+	decimal = factory.CreateDecimalButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
+	binary = factory.CreateBinaryButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
+	hex = factory.CreateHexButton(this, currentX, currentY, xSize, ySize); currentX += xSize;
 }
 
-bool nextMustBeNumber = false; //If next number must be number or not
+bool nextMustBeNumber = true; //If next number must be number or not
 
 void Main::OnButtonClicked(wxCommandEvent& evnt)
 {
@@ -101,6 +90,39 @@ void Main::OnButtonClicked(wxCommandEvent& evnt)
 		nextMustBeNumber = false;
 		wxButton* pButton = dynamic_cast<wxButton*>(evnt.GetEventObject());
 		operations->AppendText(pButton->GetLabel());
+	}
+	else if (num == 30) //Decimal
+	{
+
+	}
+	else if (num == 31) //Binary
+	{
+		std::string results = "";
+		long val;
+		if (operations->GetValue().ToLong(&val))
+		{
+			for (long i = 0; i < 32; i++)
+			{
+				if (val % 2 == 0)
+				{
+					results = "0" + results;
+				}
+				else
+				{
+					results = "1" + results;
+				}
+				val = val / 2;
+			}
+			operations->SetValue(results);
+		}
+		else
+		{
+			operations->SetValue("Syntax Error");
+		}
+	}
+	else if (num == 32) //HEX
+	{
+
 	}
 	evnt.Skip();
 }
