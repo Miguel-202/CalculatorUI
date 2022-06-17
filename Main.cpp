@@ -1,5 +1,6 @@
 #include "Main.h"
 #include "ButtonFactory.h"
+#include "Processor.h"
 wxBEGIN_EVENT_TABLE(Main, wxFrame)
 EVT_BUTTON(wxID_ANY, OnButtonClicked)
 wxEND_EVENT_TABLE();
@@ -62,6 +63,7 @@ void Main::CreateButtons()
 }
 
 bool nextMustBeNumber = true; //If next number must be number or not
+Processor* processor =  processor->GetInstance();
 
 void Main::OnButtonClicked(wxCommandEvent& evnt)
 {
@@ -69,13 +71,19 @@ void Main::OnButtonClicked(wxCommandEvent& evnt)
 	if (num >= 42 && num <= 47 && nextMustBeNumber == false) // Are the + / * - . symbols
 	{
 		nextMustBeNumber = true;
-		int val = wxAtoi(operations->GetValue());
 		operations->AppendText((char)num);
+		processor->AddOperation('+');
 	}
 	else if (num == 61) //Equals
 	{
-		wxString operation = operations->GetValue();
-
+		if (!nextMustBeNumber)
+		{
+			wxString operation = operations->GetValue();
+			std::string str = std::string(operation.mb_str());
+			double result = processor->Calculate(str);
+			std::string answer = std::to_string(result);
+			operations->SetLabel(answer);
+		}
 	}
 	else if (num == 20) //ON / OFF button
 	{
@@ -84,6 +92,7 @@ void Main::OnButtonClicked(wxCommandEvent& evnt)
 	else if (num == 17) // Clear
 	{
 		operations->Clear();
+		processor->Clear();
 	}
 	else if (num <= 57 && num >= 48)
 	{
@@ -97,23 +106,11 @@ void Main::OnButtonClicked(wxCommandEvent& evnt)
 	}
 	else if (num == 31) //Binary
 	{
-		std::string results = "";
 		long val;
 		if (operations->GetValue().ToLong(&val))
 		{
-			for (long i = 0; i < 32; i++)
-			{
-				if (val % 2 == 0)
-				{
-					results = "0" + results;
-				}
-				else
-				{
-					results = "1" + results;
-				}
-				val = val / 2;
-			}
-			operations->SetValue(results);
+			processor->SetBaseNumber(val);
+			operations->SetValue(processor->GetBinary());
 		}
 		else
 		{
@@ -122,7 +119,16 @@ void Main::OnButtonClicked(wxCommandEvent& evnt)
 	}
 	else if (num == 32) //HEX
 	{
-
+		long val;
+		if (operations->GetValue().ToLong(&val))
+		{
+			processor->SetBaseNumber(val);
+			operations->SetValue(processor->GetHexadecimal());
+		}
+		else
+		{
+			operations->SetValue("Syntax Error");
+		}
 	}
 	evnt.Skip();
 }
