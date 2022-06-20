@@ -26,6 +26,7 @@ public:
 	}
 	float Calculate(std::string my_str)
 	{
+		numbsToCalculate.clear();
 		std::stringstream s_stream(my_str);
 		while (s_stream.good()) 
 		{
@@ -34,27 +35,18 @@ public:
 			if (double num = std::stod(substr))
 				numbsToCalculate.push_back(num);
 		}
-		for (size_t i = 0; i < operations.size(); i++)
+		for (size_t i = operations.size(); i > 0; i--)
 		{
 			if (numbsToCalculate.size() > 1)
 			{
-				double num1 = numbsToCalculate[0];
-				double num2 = numbsToCalculate[1];
-				if (operations[i] == '+')
+				if (operations[i-1] == '+')
 				{
-					num1 = num1 + num2;
-					numbsToCalculate.erase(numbsToCalculate.begin());
-					numbsToCalculate.erase(numbsToCalculate.begin());
-					if (numbsToCalculate.size() < 1)
-					{
-						numbsToCalculate.push_back(num1);
-					}
-					else
-					{
-						numbsToCalculate[i] = num1;
-					}
+					double num1 = numbsToCalculate[i];
+					double num2 = numbsToCalculate[i - 1];
+					num2 = num1 + num2;
+					numbsToCalculate.erase(numbsToCalculate.begin() + i);
+					numbsToCalculate[i-1] = num2;
 				}
-				operations.erase(operations.begin());
 			}
 		}
 		return numbsToCalculate[0];

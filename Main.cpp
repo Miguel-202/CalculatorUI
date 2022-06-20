@@ -42,7 +42,7 @@ void Main::CreateButtons()
 
 	four = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 4); currentX += xSize;
 	five = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 3); currentX += xSize;
-	six = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 2); currentX += xSize;
+	six = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 6); currentX += xSize;
 	multiply = factory.CreateMultiplyButton(this, currentX, currentY, xSize, ySize); currentX = 0; currentY += ySize;
 
 	one = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 1); currentX += xSize;
