@@ -41,7 +41,7 @@ void Main::CreateButtons()
 	divide = factory.CreateDivideButton(this, currentX, currentY, xSize, ySize); currentX = 0; currentY += ySize;
 
 	four = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 4); currentX += xSize;
-	five = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 3); currentX += xSize;
+	five = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 5); currentX += xSize;
 	six = factory.CreateNumberButton(this, currentX, currentY, xSize, ySize, 6); currentX += xSize;
 	multiply = factory.CreateMultiplyButton(this, currentX, currentY, xSize, ySize); currentX = 0; currentY += ySize;
 
@@ -68,11 +68,34 @@ Processor* processor =  processor->GetInstance();
 void Main::OnButtonClicked(wxCommandEvent& evnt)
 {
 	int num = evnt.GetId();
-	if (num >= 42 && num <= 47 && nextMustBeNumber == false) // Are the + / * - . symbols
+	if (num == 42 && nextMustBeNumber == false) // Multiplication *
 	{
 		nextMustBeNumber = true;
 		operations->AppendText((char)num);
-		processor->AddOperation('+');
+		processor->AddOperationMultiplication();
+	}
+	else if (num == 43 && nextMustBeNumber == false) // Addition *
+	{
+		nextMustBeNumber = true;
+		operations->AppendText((char)num);
+		processor->AddOperationAddition();
+	}
+	else if (num == 45 && nextMustBeNumber == false) // Substraction *
+	{
+		nextMustBeNumber = true;
+		operations->AppendText((char)num);
+		processor->AddOperationSubstraction();
+	}
+	else if (num == 46 && nextMustBeNumber == false)
+	{
+		nextMustBeNumber = true;
+		operations->AppendText((char)num);
+	}
+	else if (num == 47 && nextMustBeNumber == false) // Divition *
+	{
+		nextMustBeNumber = true;
+		operations->AppendText((char)num);
+		processor->AddOperationDivition();
 	}
 	else if (num == 61) //Equals
 	{
@@ -93,6 +116,7 @@ void Main::OnButtonClicked(wxCommandEvent& evnt)
 	{
 		operations->Clear();
 		processor->Clear();
+		nextMustBeNumber = true;
 	}
 	else if (num <= 57 && num >= 48)
 	{
