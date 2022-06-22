@@ -179,7 +179,7 @@ public:
 	std::string GetNegative()
 	{
 		std::string results = "";
-		double number = baseNumber*-1;
+		double number = (double)baseNumber*-1;
 		results = results + std::to_string(number);
 		return results;
 	}
