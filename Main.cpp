@@ -1,6 +1,11 @@
 #include "Main.h"
 #include "ButtonFactory.h"
 #include "Processor.h"
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 wxBEGIN_EVENT_TABLE(Main, wxFrame)
 EVT_BUTTON(wxID_ANY, OnButtonClicked)
 wxEND_EVENT_TABLE();
@@ -9,12 +14,12 @@ double width = 375;
 double height = 679;
 Main::Main() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(600,100), wxSize(width,height))
 {
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	CreateButtons();
 }
 
 Main:: ~Main()
 {
-
 }
 
 
@@ -104,8 +109,17 @@ void Main::OnButtonClicked(wxCommandEvent& evnt)
 			wxString operation = operations->GetValue();
 			std::string str = std::string(operation.mb_str());
 			double result = processor->Calculate(str);
-			std::string answer = std::to_string(result);
+			std::string answer;
+			if (result == (int)result)
+			{
+				answer = std::to_string((int)result);
+			}
+			else
+			{
+				answer = std::to_string(result);
+			}
 			operations->SetLabel(answer);
+			processor->Clear();
 		}
 	}
 	else if (num == 20) //ON / OFF button
@@ -126,7 +140,7 @@ void Main::OnButtonClicked(wxCommandEvent& evnt)
 	}
 	else if (num == 30) //Decimal
 	{
-
+		operations->SetValue(processor->GetDecimal());
 	}
 	else if (num == 31) //Binary
 	{
@@ -153,6 +167,26 @@ void Main::OnButtonClicked(wxCommandEvent& evnt)
 		{
 			operations->SetValue("Syntax Error");
 		}
+	}
+	else if (num == 18)  // NEGATIVE
+	{
+		double val;
+		if (operations->GetValue().ToDouble(&val))
+		{
+			processor->SetBaseNumber(val);
+			operations->SetValue(processor->GetNegative());
+		}
+		else
+		{
+			operations->SetValue("Syntax Error");
+		}
+	}
+	else if (num == 37 && nextMustBeNumber == false) // MOD
+	{
+		nextMustBeNumber = true;
+		operations->AppendText((char)num);
+		processor->AddOperationMod();
+
 	}
 	evnt.Skip();
 }

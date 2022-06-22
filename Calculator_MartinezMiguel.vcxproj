@@ -25,6 +25,7 @@
     <ClInclude Include="Divition.h" />
     <ClInclude Include="IBaseCommand.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="Modulus.h" />
     <ClInclude Include="Multiplication.h" />
     <ClInclude Include="Processor.h" />
     <ClInclude Include="Substraction.h" />
@@ -36,6 +37,7 @@
     <ClCompile Include="Divition.cpp" />
     <ClCompile Include="IBaseCommand.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Modulus.cpp" />
     <ClCompile Include="Multiplication.cpp" />
     <ClCompile Include="Substraction.cpp" />
   </ItemGroup>

@@ -6,8 +6,9 @@ class Divition :
 public:
     double Execute(double num1, double num2)
     {
-        double result = num1 / num2;
+        double result = num2 / num1;
         return result;
     }
+    
 };
 

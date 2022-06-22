@@ -7,6 +7,7 @@
 #include "Multiplication.h"
 #include "Divition.h"
 #include "Substraction.h"
+#include "Modulus.h"
 class Processor
 {
 private:
@@ -16,8 +17,19 @@ private:
 	std::vector<IBaseCommand* > operations;
 	Processor(){}
 public:
+	~Processor()
+	{
+		Clear();
+		delete this;
+	}
+
+public:
 	void Clear()
 	{
+		for (size_t i = 0; i < operations.size(); i++)
+		{
+			delete operations[i];
+		}
 		numbsToCalculate.clear();
 		operations.clear();
 	}
@@ -28,18 +40,23 @@ public:
 	}
 	void AddOperationSubstraction()
 	{
-		Substraction* add = new Substraction();
-		operations.push_back(add);
+		Substraction* sub = new Substraction();
+		operations.push_back(sub);
 	}
 	void AddOperationMultiplication()
 	{
-		Multiplication* add = new Multiplication();
-		operations.push_back(add);
+		Multiplication* mult = new Multiplication();
+		operations.push_back(mult);
 	}
 	void AddOperationDivition()
 	{
-		Divition* add = new Divition();
-		operations.push_back(add);
+		Divition* div = new Divition();
+		operations.push_back(div);
+	}
+	void AddOperationMod()
+	{
+		Modulus* mod = new Modulus();
+		operations.push_back(mod);
 	}
 	void AddNumberToCalculate(double num)
 	{
@@ -47,9 +64,8 @@ public:
 	}
 	float Calculate(std::string op)
 	{
-		numbsToCalculate.clear();
 		op.push_back('*');
-		std::string temp;
+		std::string temp = "";
 		for (size_t i = 0; i < op.size(); i++)
 		{
 			if (op[i] >= 48 && op[i] <= 57 || op[i] == 46)
@@ -69,11 +85,12 @@ public:
 			{
 				double num1 = numbsToCalculate[i];
 				double num2 = numbsToCalculate[i - 1];
-				num2 = operations[i-1]->Execute(num1,num2);
+				num2 = operations[i - 1]->Execute(num1, num2);
 				numbsToCalculate.erase(numbsToCalculate.begin() + i);
-				numbsToCalculate[i-1] = num2;
+				numbsToCalculate[i - 1] = num2;
 			}
 		}
+		
 		operations.clear();
 		return numbsToCalculate[0];
 	}
@@ -95,7 +112,10 @@ public:
 
 	std::string GetDecimal()
 	{
-
+		std::string results = "";
+		double number = baseNumber;
+		results = results + std::to_string(number);
+		return results;
 	}
 	std::string GetBinary()
 	{
@@ -156,7 +176,13 @@ public:
 		results = "0x" + results;
 		return results;
 	}
-
+	std::string GetNegative()
+	{
+		std::string results = "";
+		double number = baseNumber*-1;
+		results = results + std::to_string(number);
+		return results;
+	}
 
 };
 Processor* Processor::_processor = nullptr;

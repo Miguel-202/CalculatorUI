@@ -3,11 +3,9 @@ wxIMPLEMENT_APP(Calculator);
 
 Calculator::Calculator()
 {
-
 }
 Calculator:: ~Calculator()
 {
-
 }
 
 bool Calculator::OnInit()
