@@ -14,7 +14,8 @@ double width = 375;
 double height = 679;
 Main::Main() : wxFrame(nullptr, wxID_ANY, "Calculator", wxPoint(600,100), wxSize(width,height))
 {
-	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	_CrtSetBreakAlloc(-1);
 	CreateButtons();
 }
 
@@ -68,10 +69,11 @@ void Main::CreateButtons()
 }
 
 bool nextMustBeNumber = true; //If next number must be number or not
-Processor* processor =  processor->GetInstance();
+
 
 void Main::OnButtonClicked(wxCommandEvent& evnt)
 {
+	Processor* processor = processor->GetInstance();
 	int num = evnt.GetId();
 	if (num == 42 && nextMustBeNumber == false) // Multiplication *
 	{

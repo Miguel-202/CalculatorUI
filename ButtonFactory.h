@@ -1,6 +1,6 @@
 #pragma once
 #include "wx/wx.h"
-class ButtonFactory
+static class ButtonFactory
 {
 public:
 	wxButton* CreatePowerButton(wxWindow* parent, int currentX, int currentY, int xSize, int ySize);
