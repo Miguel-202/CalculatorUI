@@ -1,4 +1,3 @@
-#pragma once
 #include <string>
 #include <vector>
 #include <sstream>
@@ -8,7 +7,7 @@
 #include "Divition.h"
 #include "Substraction.h"
 #include "Modulus.h"
-class Processor
+static class Processor
 {
 private:
 	static Processor* _processor;
@@ -92,7 +91,7 @@ public:
 		}
 		
 		operations.clear();
-		return numbsToCalculate[0];
+		return (float)numbsToCalculate[0];
 	}
 	static Processor* GetInstance()
 	{
@@ -185,4 +184,3 @@ public:
 	}
 
 };
-Processor* Processor::_processor = nullptr;
